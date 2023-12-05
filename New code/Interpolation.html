@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="scripts/interpolator.js"></script>
+	<script type="text/javascript" src="scripts/utils.js"></script>
+	<script type="text/javascript" src="scripts/view.js"></script>
+	<script type="text/javascript" src="scripts/flot/jquery.js"></script>
+	<script type="text/javascript" src="scripts/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="scripts/controller.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function() {
+            let controller = new Controller();
+            controller.start();
+
+            $('.checkb').click( function() { controller.start() });
+            $('#refresh_button').click(function() { controller.start() });
+        });
+    </script>
+
+	<title>Метод Ньютона</title>
+	<meta charset="UTF-8"/>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="plot"></div>
+        <table id="controls" cellpadding="5" cellspacing="0">
+            <tr>
+                <td width="100%" align="center" class="controls_td">
+                    max( r(x) ) = <b><span id="max_rx" /></b><br/>
+                    при x = <b><span id="max_rx_x" /></b>
+                </td>
+            </tr>
+            <tr>
+                <td class="controls_td">
+                    <table id="controls_table" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center">
+                                <b>Параметры:</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <b>Параметры окна:</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                A: <input id="windowA_input" type="text" value="0" /><br/>
+                                B: <input id="windowB_input" type="text" value="3" /><br/>
+                                C: <input id="windowC_input" type="text" value="-15" /><br/>
+                                D: <input id="windowD_input" type="text" value="15" /><br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <b>Параметры функции:</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                α: <input id="alpha_input" type="text" value="2" /><br/>
+                                β: <input id="beta_input" type="text" value="4" /><br/>
+                                γ: <input id="gamma_input" type="text" value="6" /><br/>
+                                δ: <input id="delta_input" type="text" value="1" /><br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <b>Параметры интерполяции:</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                Узлов: <input id="n_input" type="range" min="4" max="100" step="2" value="4" />
+                                <span id="n_value">1</span>
+
+                                <script type="text/javascript">
+                                    window.onload = function() {
+                                        getElement('n_value').innerHTML = getElement('n_input').value;
+                                    }
+                                    getElement('n_input').onchange = function() {
+                                        getElement('n_value').innerHTML = this.value;
+                                    }
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <b>Параметры дифференцирования:</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                Δ:
+                                <select id="delta_deriv_input" type="text">
+                                    <option value="1">1</option>
+                                    <option value="1e-1">0.1</option>
+                                    <option value="1e-2">0.01</option>
+                                    <option value="1e-3" selected="selected">0.001</option>
+                                    <option value="1e-4">0.0001</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="empty_td" />
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <br/>
+                                <input id="refresh_button" type="button" value="Перерисовать" /><br/><br/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table id="checkboxes" cellspacing="0" width="100%">
+                        <tr>
+                            <td align="left">
+                                <b>Отображать графики</b><br/>
+                            </td>
+                        </tr>
+                        <tr width="100%">
+                            <td align="left" width="100%">
+                                <input id="draw_f" type="checkbox" class="checkb" checked="checked" /> f(x)<br/>
+                                <input id="draw_p" type="checkbox" class="checkb" checked="checked" /> P(x)<br/>
+                                <input id="draw_r" type="checkbox" class="checkb" checked="checked" /> r(x)<br/>
+                                <input id="draw_fd" type="checkbox" class="checkb" checked="checked" /> ∂f(x)<br/>
+                                <input id="draw_pd" type="checkbox" class="checkb" checked="checked" /> ∂P(x)<br/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

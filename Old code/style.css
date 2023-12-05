@@ -1,0 +1,48 @@
+html{
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    position: relative;
+}
+
+#plot {
+    position: absolute;
+    left: 1%;
+    top: 1%;
+    width: 70%;
+    height: 50%;
+    border: 1px solid black;
+}
+
+#controls {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    width: 20%;
+    height: auto;
+    border: 1px solid black;
+    padding: 0px;
+}
+
+#controls_table {
+    width: 100%;
+    height: 100%;
+}
+
+.controls_td {
+    border-bottom: 1px solid black;
+}
+
+.empty_td {
+    height: 10px;
+}
+
+#n_input {
+    position: relative;
+    width: 70%;
+}
+
+input {
+    text-align: center;
+}
