@@ -21,7 +21,7 @@ class Interpolator {
 
 			for (let i = 0; i < nodesNum; i++) {
 				let x = intervalA + i * step;
-				pointsPoly.push(x);
+				pointsPoly = addValue(pointsPoly, x);
 			}
 			
 			debugInfo(pointsPoly);
@@ -71,8 +71,7 @@ class Interpolator {
 		 * @returns {Array} Массив необходимых нам разностей (центральная линия в треугольнике)
 		 */
 		function countFiniteDiffs() {
-			const intermediateDiffs = initFiniteDiffs();
-			
+			let intermediateDiffs = initFiniteDiffs();
 			let values = []; 
 
 			for (let i = 0; i < nodesNum; i++) {
@@ -94,12 +93,11 @@ class Interpolator {
 		 * @returns {Array} Искомый массив
 		 */
 		function initFiniteDiffs() {
-			const indexes = range(0, nodesNum);
-		
+			let indexes = range(0, nodesNum);
 			let res = []; 	
 
 			indexes.map(function (index) {
-				return res.push(func(intervalA + index * step));
+				res = addValue(res, func(intervalA + index * step));
 			});
 
 			return res;

@@ -10,7 +10,6 @@ class View {
 		 */
 		this.draw = function (w) {
 			$.plot(placeholder, functions, {
-				// addAxis('xaxis', A, B);
 				'xaxis': {
 					min: w.A,
 					max: w.B
@@ -37,15 +36,15 @@ class View {
 				return;
 
 			for (const pair of zip(args, values)) {
-				graph.push(pair);
+				graph = addValue(graph, pair);
 			}
 
-			functions.push({
+			functions = addValue(functions, {
 				'label': label,
 				'data': graph
 			});
 
-			colors.push(col);
+			colors = addValue(colors, col);
 
 		};
 

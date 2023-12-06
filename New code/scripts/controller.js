@@ -17,12 +17,14 @@ class Controller {
 
 			const windowA = +getElement('windowA_input').value;
 			const windowB = +getElement('windowB_input').value;
+			const windowC = +getElement('windowC_input').value;
+			const windowD = +getElement('windowD_input').value;
 
 			interpolatorWindow = {
-				'A': +getElement('windowA_input').value,
-				'B': +getElement('windowB_input').value,
-				'C': +getElement('windowC_input').value,
-				'D': +getElement('windowD_input').value
+				'A': windowA,
+				'B': windowB,
+				'C': windowC,
+				'D': windowD
 			};
 
 			interpolator.setObjFunction(func);
@@ -44,15 +46,14 @@ class Controller {
 		};
 
 		function createPointsArray(windowA, windowB) {
-			const step = (windowB - windowA) / $('#plot').width();
-			
+			let step = (windowB - windowA) / $('#plot').width();
 			let result = [];
 
 			for (let i = windowA; i < windowB; i += step)
-				result.push(i);
+				result = addValue(result, i);
 
-			result.push(windowB); //иначе правая граница может быть не учтена из-за погрешностей
-
+			result = addValue(result, windowB); //иначе правая граница может быть не учтена из-за погрешностей
+			
 			return result;
 		}
 
@@ -90,12 +91,15 @@ class Controller {
 function countDiffValues(points, func, poly) {
 	let max = -Infinity;
 	let diffValues = [];
-
+	let maxDiff = {
+		'x': 0,
+		'val': 0
+	};
 	points.forEach(point => {
 		let x = point;
 		let diff = func(x) - poly(x);
 		
-		diffValues.push(diff);
+		diffValues = addValue(diffValues, diff);
 		
 		if (diff > max) {
 			maxDiff = {

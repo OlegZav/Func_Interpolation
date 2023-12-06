@@ -11,7 +11,6 @@ const polyDerivativeBuilder = (delta, poly) => (x) =>
 	(1 / delta) * (poly(x + delta) - poly(x))
 
 const newtonPolyBuilder = (x0, h, differences) => (x) => {
-
 	const t = (x - x0) / h;
 	let result = differences[0];
 	let accumulator = t;
@@ -19,25 +18,29 @@ const newtonPolyBuilder = (x0, h, differences) => (x) => {
 	result += t * differences[1];
 
 	for (let i = 2; i < getLength(differences); i++) {
-		let ratio = getRatio(i);
+		let {ratio, newAccum} = getNewtonRatio(i, accumulator, t);
 		result += ratio * differences[i];
+		accumulator = newAccum;
 	}
 
 	return result;
+}
 
-	function getRatio(i) {
-		const indexesRatio = range(1, i);
+function getNewtonRatio(i, accumulator, t) {
+	let indexesRatio = range(1, i);
 
-		accumulator /= i;
+	let newAccum = accumulator/i;
 
-		let diff = reduce(indexesRatio, 1.0, function (total, value) {
-			return total * (t - value);
-		});
-		let res = accumulator * diff;
+	let diff = reduce(indexesRatio, 1.0, function (total, value) {
+		return total * (t - value);
+	});
 
-		return res;
+	let ratio = newAccum * diff;
 
-	};
+	return {
+		ratio,
+		newAccum
+	}
 }
 
 function getElement(id) {
@@ -64,6 +67,12 @@ function range(start, end) {
 	for (let i = start; i < end; i++)
 		result.push(i);
 	return result;
+}
+
+function addValue(array, value) {
+	var copy = array.slice();
+	copy.push(value);
+	return copy;
 }
 
 function getLength(array) {
